@@ -171,14 +171,8 @@ def requires_auth(permission=''):
         @wraps(f)
         def wrapper(*args, **kwargs):
             token = get_token_auth_header()
-            try:
-                payload = verify_decode_jwt(token)
-            except:
-                 raise AuthError({
-                    'code': 'authorization_failed',
-                    'description': 'Authorization failed'
-                }, 401)
-
+            payload = verify_decode_jwt(token)
+        
             check_permissions(permission, payload)
             return f(*args, **kwargs)
 
